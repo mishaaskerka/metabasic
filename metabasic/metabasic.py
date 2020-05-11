@@ -2,10 +2,9 @@ from typing import Any, Dict, List, Optional
 
 import inquirer
 import requests
+from pandas import DataFrame
 
 from .exceptions import AuthError, ConfigError
-
-import pandas as pd
 
 
 class Metabasic(object):
@@ -61,8 +60,8 @@ class Metabasic(object):
             raise Exception(resp)
 
         return resp.json()["data"]
-    
-    def get_dataframe(self, query: str)-> pd.DataFrame:
+
+    def get_dataframe(self, query: str) -> DataFrame:
         """Queries the currently selected database.
 
         Arguments:
@@ -74,7 +73,7 @@ class Metabasic(object):
 
         res = self.query(query)
 
-        df = pd.DataFrame(res['rows'],columns = [i['name'] for i in res['cols']])
+        df = DataFrame(res["rows"], columns=[i["name"] for i in res["cols"]])
 
         return df
 
