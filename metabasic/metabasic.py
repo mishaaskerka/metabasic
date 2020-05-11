@@ -5,6 +5,8 @@ import requests
 
 from .exceptions import AuthError, ConfigError
 
+import pandas as pd
+
 
 class Metabasic(object):
     """Instantiates a new Metabasic Client
@@ -58,7 +60,23 @@ class Metabasic(object):
         if resp.status_code != 202:
             raise Exception(resp)
 
-        return resp.json()["data"]["rows"]
+        return resp.json()["data"]
+    
+    def get_dataframe(self, query: str)-> pd.DataFrame:
+        """Queries the currently selected database.
+
+        Arguments:
+            query (str): The query to run against the currently selected database.
+
+        Returns:
+            pd.DataFrame: The results of the query wrapped into a Pandas Datarame.
+        """
+
+        res = self.query(query)
+
+        df = pd.DataFrame(res['rows'],columns = [i['name'] for i in res['cols']])
+
+        return df
 
     def authenticate(self, email: str, password: str) -> "Metabasic":
         """Authenticates the client instance with the given email & password.
