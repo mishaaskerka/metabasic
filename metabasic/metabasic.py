@@ -26,7 +26,7 @@ class Metabasic(object):
         self.session_id: Optional[str] = session_id
         self.database_id: Optional[int] = database_id
 
-    def query(self, query: str) -> List[List[Any]]:
+    def query(self, query: str) -> Dict[Any,Any]:
         """Queries the currently selected database.
 
         Arguments:
